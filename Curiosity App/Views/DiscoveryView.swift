@@ -8,10 +8,13 @@ import SwiftUI
 
 struct DiscoveryView : View {
     let category: DiscoveryCategory
+    var discovery: Discovery? {
+        Discovery.all.first(where: { $0.category == category })
+    }
     
     var body: some View {
         ZStack {
-            Color("Cream").ignoresSafeArea()
+            Color("Sand").ignoresSafeArea()
             
             VStack(spacing: 20) {
                 Text(category.emoji)
@@ -22,17 +25,27 @@ struct DiscoveryView : View {
                     .fontWeight(.bold)
                     .foregroundStyle(Color("Evergreen"))
                 
-                Text("Today's discovery will appear here.")
-                    .font(.title3)
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(Color("Evergree"))
-                
+                if let discovery = discovery {
+                    Text(discovery.title)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                    Text(discovery.description)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(Color("Evergreen"))
+                    Text(discovery.reflectionPrompt)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(Color("Evergreen"))
+                } else {
+                    Text("Nothing found :(")
+                }
+                    
+                    
                 
                 Button("Feed my brain") {
                     print("Reflection coming soon!")
                 }
                 .padding()
-                .background(Color("Sky Blue"))
+                .background(Color("Sky Reflection"))
                 .foregroundStyle(Color("Evergreen"))
                 .clipShape(RoundedRectangle(cornerRadius: 16))
             }
