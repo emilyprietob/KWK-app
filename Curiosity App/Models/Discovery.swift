@@ -30,10 +30,10 @@ struct Discovery: Identifiable {
         ),
         Discovery(
             category: .music,
-            title: "Flipturn",
-            creator: "indie rock band",
+            title: "Burnout Days (Reimagined)",
+            creator: "Flipturn",
             year: "2026",
-            imageName: "flipturn",
+            imageName: "burnout-days",
             description: "Flipturn makes sunlit, restless indie rock that feels like driving with the windows down while your life is quietly changing. Press play for soaring guitars, emotional lyrics, and songs that build from intimate to euphoric.",
             reflectionPrompt: "After listening to Flipturn, what feeling stayed with you the longest? Why do you think it found you today?"
         ),
