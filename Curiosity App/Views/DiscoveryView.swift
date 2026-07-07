@@ -9,7 +9,7 @@ import SwiftUI
 struct DiscoveryView : View {
     let category: DiscoveryCategory
     
-    @State private var reflections: [Reflection] = []
+    @EnvironmentObject var store: LibraryStore
     @State private var navigateToReflection = false
     
     var discovery: Discovery? {
@@ -95,7 +95,7 @@ struct DiscoveryView : View {
             .navigationDestination(isPresented: $navigateToReflection) {
                 if let discovery = discovery {
                     ReflectionView(discovery: discovery) {
-                        reflection in reflections.append(reflection)
+                        reflection in store.reflections.append(reflection)
                     }
                 }
             }
