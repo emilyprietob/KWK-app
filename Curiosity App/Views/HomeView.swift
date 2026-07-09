@@ -71,9 +71,7 @@ struct HomeView: View {
                             ForEach(DiscoveryCategory.allCases) { category in
                                 let discovery = Discovery.all.first(where: { $0.category == category })
 
-                                NavigationLink {
-                                    DiscoveryView(category: category)
-                                } label: {
+                                NavigationLink(value : category) {
                                     ZStack(alignment: .bottomLeading) {
 
                                         // Background image
@@ -125,6 +123,9 @@ struct HomeView: View {
                 }
             }
             .navigationBarHidden(true)
+            .navigationDestination(for: DiscoveryCategory.self) {
+                category in DiscoveryView(category : category)
+            }
         }
     }
 }
