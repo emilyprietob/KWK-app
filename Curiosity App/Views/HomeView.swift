@@ -107,9 +107,7 @@ struct HomeView: View {
                 }
             }
             .navigationBarHidden(true)
-            .navigationDestination(for: DiscoveryCategory.self) { category in
-                DiscoveryView(category: category)
-            }
+            
         }
     }
 }

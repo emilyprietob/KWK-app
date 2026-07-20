@@ -16,6 +16,7 @@ struct CategoryCard: View {
     var body: some View {
         NavigationLink {
             DiscoveryView(category: category)
+                .id(category)
         } label: {
             ZStack(alignment: .bottomLeading) {
 
@@ -53,6 +54,7 @@ struct CategoryCard: View {
                 .padding()
             }
             .clipShape(RoundedRectangle(cornerRadius: 16))
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }
