@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-enum DiscoveryCategory: String, CaseIterable, Identifiable {
+enum DiscoveryCategory: String, CaseIterable, Identifiable, Hashable {
     case art = "Art"
     case literature = "Literature"
     case music = "Music"

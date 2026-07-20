@@ -7,6 +7,26 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var store: LibraryStore
+
+    var dominantCategory: DiscoveryCategory? {
+        let counts = Dictionary(grouping: store.reflections, by: { $0.category })
+        return counts.max(by: { $0.value.count < $1.value.count })?.key
+    }
+
+    var companionTagline: String {
+        switch dominantCategory {
+        case .art:
+            return "Painting the world one discovery at a time."
+        case .literature:
+            return "Lost in words and loving it."
+        case .music:
+            return "Currently living in a song."
+        case nil:
+            return "Ready to explore something new."
+        }
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -42,10 +62,19 @@ struct HomeView: View {
 
                                 Spacer()
 
-                                // Companion placeholder
-                                Text("✦")
-                                    .font(.system(size: 36))
-                                    .foregroundStyle(Color("Burgundy"))
+                                // Companion
+                                VStack(spacing: 4) {
+                                    Text("✦")
+                                        .font(.system(size: 36))
+                                        .foregroundStyle(Color("Burgundy"))
+
+                                    Text(companionTagline)
+                                        .font(.caption2)
+                                        .italic()
+                                        .foregroundStyle(Color("Dusty Olive"))
+                                        .multilineTextAlignment(.center)
+                                        .frame(maxWidth: 100)
+                                }
                             }
                             .padding(.horizontal)
                             .padding(.top, 24)
@@ -69,53 +98,8 @@ struct HomeView: View {
                         // Category cards
                         VStack(spacing: 16) {
                             ForEach(DiscoveryCategory.allCases) { category in
-                                let discovery = Discovery.all.first(where: { $0.category == category })
-
-                                NavigationLink(value : category) {
-                                    ZStack(alignment: .bottomLeading) {
-
-                                        // Background image
-                                        if let discovery = discovery {
-                                            Image(discovery.imageName)
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(maxWidth: .infinity)
-                                                .frame(height: 160)
-                                                .clipped()
-                                        } else {
-                                            Rectangle()
-                                                .fill(Color("Soft Linen"))
-                                                .frame(height: 160)
-                                        }
-
-                                        // Dark overlay
-                                        LinearGradient(
-                                            colors: [.clear, Color("Ink Black").opacity(0.7)],
-                                            startPoint: .top,
-                                            endPoint: .bottom
-                                        )
-                                        .frame(height: 160)
-
-                                        // Category label
-                                        HStack {
-                                            Text(category.rawValue.uppercased())
-                                                .font(.caption)
-                                                .fontWeight(.semibold)
-                                                .tracking(3)
-                                                .foregroundStyle(.white)
-
-                                            Spacer()
-
-                                            Image(systemName: "arrow.right")
-                                                .foregroundStyle(.white)
-                                                .font(.caption)
-                                        }
-                                        .padding()
-                                    }
-                                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                                }
-                                .buttonStyle(.plain)
-                                .padding(.horizontal)
+                                CategoryCard(category: category)
+                                    .padding(.horizontal)
                             }
                         }
                         .padding(.bottom, 32)
@@ -123,8 +107,8 @@ struct HomeView: View {
                 }
             }
             .navigationBarHidden(true)
-            .navigationDestination(for: DiscoveryCategory.self) {
-                category in DiscoveryView(category : category)
+            .navigationDestination(for: DiscoveryCategory.self) { category in
+                DiscoveryView(category: category)
             }
         }
     }
